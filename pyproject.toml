@@ -16,3 +16,8 @@ packages = [{include = "report_python_gemini_ia", from = "src"}]
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "mypy (>=2.4.1,<3.0.0)"
+]

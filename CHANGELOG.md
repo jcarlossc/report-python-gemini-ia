@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 This project follows Semantic Versioning.
 
+## [0.3.1](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.3.0...v0.3.1) (2026-11-08)
+
+
+### Documentation
+
+* comments e docstring added ([7125da1](https://github.com/jcarlossc/report-python-gemini-ia/commit/7125da1a0a4f6e8a8abeaa181381957a98f81e4c))
+* comments e docstring added ([6420412](https://github.com/jcarlossc/report-python-gemini-ia/commit/6420412d5e0171cb70b56048c32ff9cafbf46ba9))
+
 ## [0.3.0](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.2.0...v0.3.0) (2026-11-08)
 
 

@@ -9,6 +9,7 @@ from report_python_gemini_ia.utils.loggers.logger import setup_logger
 
 @pytest.fixture
 def logging_config(tmp_path: Path) -> dict[str, Any]:
+    """Forneçe uma configuração de registro (logging) válida para cada teste."""
     return {
         "logging": {
             "level": "INFO",
@@ -23,6 +24,7 @@ def logging_config(tmp_path: Path) -> dict[str, Any]:
 
 @pytest.fixture(autouse=True)
 def clean_root_logger() -> Any:
+    """Fecha os manipuladores do logger raiz após cada teste."""
     yield
 
     root_logger = logging.getLogger()
@@ -36,6 +38,7 @@ def test_setup_logger_writes_to_file(
     logging_config: dict[str, Any],
     capsys: pytest.CaptureFixture[str],
 ) -> None:
+    """Escreva mensagens de log em um arquivo, sem exibir nada no console."""
     setup_logger(logging_config)
 
     logging.getLogger("test_application").info("Test message")
@@ -54,6 +57,7 @@ def test_setup_logger_displays_console_output(
     logging_config: dict[str, Any],
     capsys: pytest.CaptureFixture[str],
 ) -> None:
+    """Exibe mensagens de log no console quando ativado."""
     setup_logger(logging_config, show_console=True)
 
     logging.getLogger("test_application").warning("Console message")
@@ -66,6 +70,7 @@ def test_setup_logger_displays_console_output(
 def test_setup_logger_creates_parent_directory(
     logging_config: dict[str, Any],
 ) -> None:
+    """Cria os diretórios pai ausentes para o arquivo de log."""
     setup_logger(logging_config)
 
     log_file = Path(logging_config["logs"]["file"])
@@ -84,6 +89,7 @@ def test_setup_logger_creates_parent_directory(
 def test_setup_logger_rejects_invalid_configuration(
     invalid_config: Any,
 ) -> None:
+    """Lança ValueError quando uma configuração obrigatória está ausente."""
     with pytest.raises(ValueError, match="CONFIG_ERROR"):
         setup_logger(invalid_config)
 
@@ -92,6 +98,8 @@ def test_setup_logger_wraps_filesystem_errors(
     logging_config: dict[str, Any],
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    """Emite um OSError descritivo quando a criação de um diretório falhar."""
+
     def fail_mkdir(*args: Any, **kwargs: Any) -> None:
         raise PermissionError("Permission denied")
 

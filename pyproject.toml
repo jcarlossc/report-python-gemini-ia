@@ -8,6 +8,8 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.11,<4.0"
 dependencies = [
+    "pyyaml (>=6.0.3,<7.0.0)",
+    "types-pyyaml (>=6.0.12.20261103,<7.0.0.0)"
 ]
 
 [tool.poetry]
@@ -18,7 +20,7 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-pipeline = "report_python_gemini_ia.main:main"
+sales = "report_python_gemini_ia.main:main"
 
 [dependency-groups]
 dev = [
@@ -31,10 +33,10 @@ dev = [
 ]
 
 [tool.taskipy.tasks]
-app = "pipeline"
+app = "poetry run sales"
 pytest = "poetry run pytest ."
-covreport = "poetry run pytest --cov=etl_python_gmail_mysql --cov-report=html"
-covconsole = "poetry run pytest --cov=etl_python_gmail_mysql --cov-report=term-missing"
+covreport = "poetry run pytest --cov=report_python_gemini_ia --cov-report=html"
+covconsole = "poetry run pytest --cov=report_python_gemini_ia --cov-report=term-missing"
 format = "poetry run ruff format ."
 lint = "poetry run ruff check ."
 mypy = "poetry run mypy ."

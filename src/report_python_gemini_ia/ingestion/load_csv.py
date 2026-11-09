@@ -9,6 +9,30 @@ def get_load_csv(
     sep: str = ",",
     encoding: str = "utf-8",
 ) -> pd.DataFrame:
+    """
+    Carrega um arquivo CSV em um DataFrame do pandas.
+
+    Valida o caminho do arquivo, lê o CSV utilizando o delimitador e a
+    codificação especificados e registra o processo de carregamento.
+
+    Argumentos:
+        file_csv: Caminho para o arquivo CSV.
+        sep: Delimitador de campos utilizado no CSV. O padrão é ",".
+        encoding: Codificação de caracteres do arquivo. O padrão é "utf-8".
+
+    Retorna:
+        Um DataFrame do pandas contendo os dados carregados.
+
+    Exceções:
+        FileNotFoundError: Se o arquivo especificado não existir.
+        pd.errors.EmptyDataError: Se o arquivo não contiver dados ou cabeçalhos.
+        pd.errors.ParserError: Se o pandas não conseguir analisar a estrutura do CSV.
+        UnicodeDecodeError: Se o arquivo não puder ser decodificado com a
+            codificação especificada.
+        Exception: Propaga exceções inesperadas que ocorram durante
+            o carregamento do arquivo.
+    """
+
     logger = logging.getLogger(__name__)
 
     try:

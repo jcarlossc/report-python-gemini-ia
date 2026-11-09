@@ -1,0 +1,3 @@
+paths_config:
+  data_raw: "data/data_raw/global_sales.csv"
+  data_processed: "data/data_processed/global_sales_processed.csv"

@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 This project follows Semantic Versioning.
 
+## [0.4.0](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.3.1...v0.4.0) (2026-11-09)
+
+
+### Features
+
+* load_csv function added ([cf44f0e](https://github.com/jcarlossc/report-python-gemini-ia/commit/cf44f0ed052042156d1046fa147d3058cae4346b))
+* load_csv function added ([08cd00d](https://github.com/jcarlossc/report-python-gemini-ia/commit/08cd00deb1fb7aded47262165acb8051cac0f727))
+
 ## [0.3.1](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.3.0...v0.3.1) (2026-11-08)
 
 

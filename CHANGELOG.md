@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 This project follows Semantic Versioning.
 
+## [0.5.0](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.4.1...v0.5.0) (2026-11-10)
+
+
+### Features
+
+* standardize_columns function added ([ee66b46](https://github.com/jcarlossc/report-python-gemini-ia/commit/ee66b4618e7bb00fe4003ec6a1cc3b2e573e7950))
+* standardize_columns function added ([2ab6bfd](https://github.com/jcarlossc/report-python-gemini-ia/commit/2ab6bfd23dad9e9c9f386e770aeac39cf04d1793))
+
 ## [0.4.1](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.4.0...v0.4.1) (2026-11-09)
 
 

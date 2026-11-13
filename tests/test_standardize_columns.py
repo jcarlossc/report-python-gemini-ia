@@ -11,7 +11,7 @@ from report_python_gemini_ia.transformation.standardize_columns import (
 
 @pytest.fixture
 def dataframe() -> pd.DataFrame:
-    """Create a sample DataFrame."""
+    """Cria um DataFrame de exemplo."""
     return pd.DataFrame(
         {
             "Order ID": [1, 2],
@@ -23,7 +23,7 @@ def dataframe() -> pd.DataFrame:
 
 @pytest.fixture
 def columns_dict() -> dict:
-    """Return required columns."""
+    """Retorna as colunas necessárias."""
     return {
         "order_id": {"type": "string"},
         "customer_name": {"type": "string"},
@@ -35,7 +35,7 @@ def test_standardize_column_names(
     dataframe: pd.DataFrame,
     columns_dict: dict,
 ) -> None:
-    """Standardize column names."""
+    """Padronizar nomes de colunas."""
     result = get_standardize_columns(dataframe, columns_dict)
 
     assert list(result.columns) == [
@@ -46,7 +46,7 @@ def test_standardize_column_names(
 
 
 def test_convert_columns_to_lowercase() -> None:
-    """Convert column names to lowercase."""
+    """Converte os nomes das colunas para letras minúsculas."""
     df = pd.DataFrame({"ORDER_ID": [1]})
 
     result = get_standardize_columns(df, {"order_id": {}})
@@ -55,7 +55,7 @@ def test_convert_columns_to_lowercase() -> None:
 
 
 def test_remove_accents() -> None:
-    """Remove accents from column names."""
+    """Remove acentos dos nomes das colunas."""
     df = pd.DataFrame({"Descrição": [1]})
 
     result = get_standardize_columns(df, {"descricao": {}})
@@ -64,7 +64,7 @@ def test_remove_accents() -> None:
 
 
 def test_preserve_accents_when_disabled() -> None:
-    """Preserve accents when remove_accents is False."""
+    """Preserva os acentos quando remove_accents for False."""
     df = pd.DataFrame({"Descrição": [1]})
 
     result = get_standardize_columns(
@@ -77,7 +77,7 @@ def test_preserve_accents_when_disabled() -> None:
 
 
 def test_replace_spaces_and_hyphens() -> None:
-    """Replace spaces and hyphens with underscores."""
+    """Substitui espaços e hifens por sublinhados."""
     df = pd.DataFrame({"Order Date": [1], "Product-Name": ["Notebook"]})
 
     result = get_standardize_columns(
@@ -89,7 +89,7 @@ def test_replace_spaces_and_hyphens() -> None:
 
 
 def test_remove_special_characters() -> None:
-    """Remove unsupported special characters."""
+    """Remove caracteres especiais não suportados."""
     df = pd.DataFrame({"Order@ID!": [1]})
 
     result = get_standardize_columns(df, {"orderid": {}})
@@ -98,7 +98,7 @@ def test_remove_special_characters() -> None:
 
 
 def test_generate_unique_column_names() -> None:
-    """Generate unique names for duplicated normalized columns."""
+    """Gera nomes exclusivos para colunas normalizadas duplicadas."""
     df = pd.DataFrame([[1, 2]], columns=["Order ID", "order-id"])
 
     result = get_standardize_columns(df, {})
@@ -107,7 +107,7 @@ def test_generate_unique_column_names() -> None:
 
 
 def test_generate_fallback_for_empty_names() -> None:
-    """Generate fallback names for empty column names."""
+    """Gera nomes alternativos para nomes de coluna vazios."""
     df = pd.DataFrame([[1, 2]], columns=["", "!!!"])
 
     result = get_standardize_columns(df, {})
@@ -119,7 +119,7 @@ def test_preserve_original_dataframe(
     dataframe: pd.DataFrame,
     columns_dict: dict,
 ) -> None:
-    """Ensure the original DataFrame is not modified."""
+    """Garante que o DataFrame original não seja modificado."""
     original = dataframe.copy()
 
     get_standardize_columns(dataframe, columns_dict)
@@ -128,13 +128,13 @@ def test_preserve_original_dataframe(
 
 
 def test_reject_non_dataframe() -> None:
-    """Raise TypeError when df is not a pandas DataFrame."""
+    """Lança um TypeError quando df não é um DataFrame do pandas."""
     with pytest.raises(TypeError, match="pandas DataFrame"):
         get_standardize_columns([], {})
 
 
 def test_reject_invalid_remove_accents() -> None:
-    """Raise TypeError when remove_accents is not a boolean."""
+    """Lança TypeError quando remove_accents não é um booleano."""
     df = pd.DataFrame({"order_id": [1]})
 
     with pytest.raises(TypeError, match="boolean"):
@@ -149,7 +149,7 @@ def test_reject_missing_columns(
     dataframe: pd.DataFrame,
     caplog: pytest.LogCaptureFixture,
 ) -> None:
-    """Raise KeyError when required columns are missing."""
+    """Gere um KeyError quando colunas obrigatórias estiverem ausentes."""
     required_columns: dict[str, dict[str, str]] = {
         "order_id": {},
         "missing_column": {},
@@ -163,7 +163,7 @@ def test_reject_missing_columns(
 
 
 def test_accept_empty_required_columns() -> None:
-    """Accept an empty dictionary of required columns."""
+    """Aceita um dicionário vazio de colunas obrigatórias."""
     df = pd.DataFrame({"Order ID": [1]})
 
     result = get_standardize_columns(df, {})

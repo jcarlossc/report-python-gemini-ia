@@ -4,6 +4,19 @@ All notable changes to this project are documented in this file.
 
 This project follows Semantic Versioning.
 
+## [0.5.1](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.5.0...v0.5.1) (2026-11-13)
+
+
+### Bug Fixes
+
+* function and test modified, and columns_list file added ([744e1e9](https://github.com/jcarlossc/report-python-gemini-ia/commit/744e1e959d7f15aec58bd071b60a5a1c49b39cdb))
+* function and test modified, and columns_list file added ([efe1170](https://github.com/jcarlossc/report-python-gemini-ia/commit/efe1170ba9082dd94d7226e92028be7b73f657e5))
+
+
+### Documentation
+
+* comments and docstring added ([7634b20](https://github.com/jcarlossc/report-python-gemini-ia/commit/7634b206b03c26456b60c2f5edb0ac41d2f1d35d))
+
 ## [0.5.0](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.4.1...v0.5.0) (2026-11-10)
 
 

@@ -1,3 +1,4 @@
+import logging
 import re
 import unicodedata
 
@@ -6,37 +7,38 @@ import pandas as pd
 
 def get_standardize_columns(
     df: pd.DataFrame,
+    columns_dict: dict,
     remove_accents: bool = True,
 ) -> pd.DataFrame:
     """
-    Padroniza os nomes das colunas de um DataFrame e garante que sejam únicos.
+    Padroniza os nomes das colunas e verifica as colunas obrigatórias.
 
-    Os nomes são convertidos para letras minúsculas, espaços e hifens são substituídos
-    por sublinhados, caracteres não suportados são removidos e sufixos numéricos
-    são adicionados caso ocorram colisões após a normalização.
-
-    A remoção de acentos está habilitada por padrão, mas pode ser desativada.
+    Os nomes são convertidos para letras minúsculas, espaços e hifens
+    são substituídos por sublinhados, caracteres não suportados são
+    removidos e sufixos numéricos garantem nomes únicos.
 
     O DataFrame original não é modificado.
 
-    Argumentos:
-        df: DataFrame cujos nomes de coluna devem ser padronizados.
-        remove_accents: Indica se os acentos devem ser removidos dos nomes das colunas.
-            O padrão é True.
+    Args:
+        df: DataFrame cujos nomes serão padronizados.
+        columns_dict: dicionário de colunas obrigatórias.
+        remove_accents: Indica se os acentos devem ser removidos.
 
-    Retorna:
-        Uma cópia do DataFrame com nomes de coluna únicos e padronizados.
+    Returns:
+        pd.DataFrame: DataFrame com nomes padronizados e únicos.
 
-    Exceções:
-        TypeError: Se `df` não for um DataFrame do pandas.
-        TypeError: Se `remove_accents` não for um valor booleano.
+    Raises:
+        TypeError: Se os argumentos tiverem tipos inválidos.
+        KeyError: Se existirem colunas obrigatórias ausentes.
     """
 
+    logger = logging.getLogger(__name__)
+
     if not isinstance(df, pd.DataFrame):
-        raise TypeError("df deve ser um DataFrame do pandas.")
+        raise TypeError("df must be a pandas DataFrame.")
 
     if not isinstance(remove_accents, bool):
-        raise TypeError("remove_accents deve ser um booleano.")
+        raise TypeError("remove_accents must be a boolean.")
 
     result = df.copy()
     cleaned_names: list[str] = []
@@ -55,10 +57,10 @@ def get_standardize_columns(
         # Normaliza espaços em branco e hifens.
         name = re.sub(r"[\s-]+", "_", name)
 
-        # Remova caracteres não suportados.
+        # Remove caracteres não suportados.
         name = re.sub(r"[^\w]", "", name)
 
-        # Remove os sublinhados do início e do fim.
+        # Remova os sublinhados do início e do fim.
         name = name.strip("_")
 
         # Usa um valor padrão para nomes vazios.
@@ -66,7 +68,7 @@ def get_standardize_columns(
         unique_name = base_name
         counter = 1
 
-        # Garanta que cada nome seja único.
+        # Garante que cada nome seja único.
         while unique_name in used_names:
             unique_name = f"{base_name}_{counter}"
             counter += 1
@@ -79,5 +81,16 @@ def get_standardize_columns(
 
     # Substitui os nomes das colunas da cópia por nomes limpos e exclusivos.
     result.columns = cleaned_names
+
+    # Identifica as colunas obrigatórias que não existem no DataFrame padronizado.
+    missing = [col for col in columns_dict if col not in result.columns]
+
+    # Verifica se existem colunas obrigatórias ausentes.
+    if missing:
+        logger.warning(f"Colunas ausentes: {missing}")
+
+        raise KeyError(f"Colunas obrigatórias ausentes: {missing}")
+
+    logger.info("Colunas padronizadas com sucesso.")
 
     return result

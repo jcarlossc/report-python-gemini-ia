@@ -1,0 +1,49 @@
+
+columns:
+  order_id:
+    type: string
+    nullable: false
+
+  order_date:
+    type: datetime
+    format: "%Y-%m-%d"
+
+  customer_name:
+    type: string
+
+  customer_segment:
+    type: string
+
+  country:
+    type: string
+
+  region:
+    type: string
+
+  product_category:
+    type: string
+
+  product_name:
+    type: string
+
+  quantity:
+    type: int64
+    nullable: false
+
+  unit_price:
+    type: float64
+
+  discount_percent:
+    type: float64
+
+  total_sales:
+    type: float64
+
+  shipping_cost:
+    type: float64
+
+  profit:
+    type: float64
+
+  payment_method:
+    type: string

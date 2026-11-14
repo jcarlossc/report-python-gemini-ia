@@ -1,6 +1,6 @@
 [project]
 name = "report-python-gemini-ia"
-version = "0.5.2"
+version = "0.6.0"
 description = ""
 authors = [
     {name = "jcarlossc",email = "jcarlossc1977@gmail.com"}

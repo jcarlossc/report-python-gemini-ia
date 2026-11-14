@@ -4,6 +4,20 @@ All notable changes to this project are documented in this file.
 
 This project follows Semantic Versioning.
 
+## [0.6.0](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.5.2...v0.6.0) (2026-11-14)
+
+
+### Features
+
+* clean_numeric_columns function added ([b6dc1fe](https://github.com/jcarlossc/report-python-gemini-ia/commit/b6dc1fe5ec90dc6f8be43a0f9485e82b95314182))
+* clean_numeric_columns function added ([4e76086](https://github.com/jcarlossc/report-python-gemini-ia/commit/4e76086fa32da71fa304d9f122f577d5695c4f86))
+
+
+### Documentation
+
+* comments and docstring added ([499c771](https://github.com/jcarlossc/report-python-gemini-ia/commit/499c77191417a55adaa99bc8c608b2b86dd0cf48))
+* comments and docstring added ([bc5fffe](https://github.com/jcarlossc/report-python-gemini-ia/commit/bc5fffee496661a3700d3694f6b62e7eb80cb445))
+
 ## [0.5.2](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.5.1...v0.5.2) (2026-11-13)
 
 

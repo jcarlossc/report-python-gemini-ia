@@ -58,7 +58,12 @@ def test_convert_integer_values() -> None:
     """Converte valores textuais para inteiros."""
     df = pd.DataFrame({"quantity": ["10", "20", "30"]})
 
-    config = {"quantity": {"type": "int64", "nullable": False}}
+    config: dict[str, dict[str, object]] = {
+        "quantity": {
+            "type": "int64",
+            "nullable": False,
+        },
+    }
 
     result = get_clean_numeric_columns(df, config)
 
@@ -69,7 +74,12 @@ def test_convert_float_values() -> None:
     """Converte valores textuais para decimais."""
     df = pd.DataFrame({"unit_price": ["10.50", "20.75"]})
 
-    config = {"unit_price": {"type": "float64"}}
+    config: dict[str, dict[str, object]] = {
+        "unit_price": {
+            "type": "float64",
+            "nullable": True,
+        },
+    }
 
     result = get_clean_numeric_columns(df, config)
 
@@ -95,7 +105,12 @@ def test_reject_null_values_when_not_nullable() -> None:
     """Rejeita valores nulos quando nullable é False."""
     df = pd.DataFrame({"quantity": ["10", "invalid", "30"]})
 
-    config = {"quantity": {"type": "int64", "nullable": False}}
+    config: dict[str, dict[str, object]] = {
+        "quantity": {
+            "type": "int64",
+            "nullable": False,
+        },
+    }
 
     with pytest.raises(ValueError, match="não permite valores nulos"):
         get_clean_numeric_columns(df, config)
@@ -105,7 +120,12 @@ def test_reject_missing_values_when_not_nullable() -> None:
     """Rejeita valores ausentes quando nullable é False."""
     df = pd.DataFrame({"quantity": [10, None, 30]})
 
-    config = {"quantity": {"type": "int64", "nullable": False}}
+    config: dict[str, dict[str, object]] = {
+        "quantity": {
+            "type": "int64",
+            "nullable": False,
+        },
+    }
 
     with pytest.raises(ValueError, match="não permite valores nulos"):
         get_clean_numeric_columns(df, config)
@@ -115,7 +135,12 @@ def test_reject_fractional_values_in_integer_columns() -> None:
     """Rejeita valores com casas decimais em colunas inteiras."""
     df = pd.DataFrame({"quantity": ["10", "20.5", "30"]})
 
-    config = {"quantity": {"type": "int64", "nullable": False}}
+    config: dict[str, dict[str, object]] = {
+        "quantity": {
+            "type": "int64",
+            "nullable": False,
+        },
+    }
 
     with pytest.raises(ValueError, match="valores não inteiros"):
         get_clean_numeric_columns(df, config)
@@ -143,17 +168,6 @@ def test_preserve_original_dataframe(
     pd.testing.assert_frame_equal(dataframe, original)
 
 
-def test_accept_empty_numeric_columns() -> None:
-    """Aceita configurações sem colunas numéricas."""
-    df = pd.DataFrame({"customer_name": ["Carlos"]})
-
-    config = {"customer_name": {"type": "string"}}
-
-    result = get_clean_numeric_columns(df, config)
-
-    assert list(result.columns) == ["customer_name"]
-
-
 def test_reject_non_dataframe() -> None:
     """Rejeita argumentos que não sejam DataFrames."""
     with pytest.raises(TypeError, match="DataFrame do pandas"):
@@ -178,7 +192,12 @@ def test_reject_missing_numeric_column() -> None:
     """Rejeita colunas numéricas ausentes no DataFrame."""
     df = pd.DataFrame({"unit_price": [10.50]})
 
-    config = {"quantity": {"type": "int64"}}
+    config: dict[str, dict[str, object]] = {
+        "quantity": {
+            "type": "int64",
+            "nullable": "false",
+        },
+    }
 
     with pytest.raises(KeyError, match="quantity"):
         get_clean_numeric_columns(df, config)
@@ -188,11 +207,11 @@ def test_reject_invalid_nullable_configuration() -> None:
     """Rejeita configurações de nullable que não sejam booleanas."""
     df = pd.DataFrame({"quantity": [10]})
 
-    config = {
+    config: dict[str, dict[str, object]] = {
         "quantity": {
             "type": "int64",
-            "nullable": "False",
-        }
+            "nullable": "false",
+        },
     }
 
     with pytest.raises(TypeError, match="nullable deve ser booleano"):

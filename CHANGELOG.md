@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 This project follows Semantic Versioning.
 
+## [0.8.0](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.7.1...v0.8.0) (2026-11-17)
+
+
+### Features
+
+* clean_datetime_columns added ([4f7e1f1](https://github.com/jcarlossc/report-python-gemini-ia/commit/4f7e1f1a008a98476f6133e180efc9d47f5a8f17))
+* clean_datetime_columns added ([c5d0b02](https://github.com/jcarlossc/report-python-gemini-ia/commit/c5d0b028b5910f138ffd25e00c3ceb2197e8d23d))
+
 ## [0.7.1](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.7.0...v0.7.1) (2026-11-16)
 
 

@@ -89,7 +89,7 @@ def get_clean_datetime_columns(
                 df_result[column],
                 format=date_format,
                 errors="coerce",
-            )
+            ).astype("datetime64[ns]")
 
             # Identifica valores inválidos que não eram originalmente nulos.
             invalid = cleaned.isna() & original.notna()

@@ -4,6 +4,20 @@ All notable changes to this project are documented in this file.
 
 This project follows Semantic Versioning.
 
+## [0.9.1](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.9.0...v0.9.1) (2026-11-18)
+
+
+### Bug Fixes
+
+* create_sales_summary function modified ([b04af02](https://github.com/jcarlossc/report-python-gemini-ia/commit/b04af023c086e9a899f6f18a4be6ea1720c26f81))
+* create_sales_summary function modified ([a26521f](https://github.com/jcarlossc/report-python-gemini-ia/commit/a26521ffdb7f2635395f16f5197d3280c4fd7f3c))
+
+
+### Documentation
+
+* comments and docstring added ([03b48d1](https://github.com/jcarlossc/report-python-gemini-ia/commit/03b48d11fa969a4fbbd07ef17f0d53facb685a8d))
+* comments and docstring added ([7247d0f](https://github.com/jcarlossc/report-python-gemini-ia/commit/7247d0f768fab6dc6c7c48b45ce770f4c641e010))
+
 ## [0.9.0](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.8.1...v0.9.0) (2026-11-18)
 
 

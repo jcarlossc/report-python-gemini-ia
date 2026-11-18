@@ -56,6 +56,10 @@ def get_create_sales_summary(
         if df.empty:
             raise ValueError("O DataFrame está vazio.")
 
+        # Verifica se o dicionário de colunas está vazio.
+        if not columns_dict:
+            raise ValueError("O schema de colunas está vazio.")
+
         # Obtém os nomes das colunas do schema YAML.
         required_columns = list(columns_dict.keys())
 

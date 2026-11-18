@@ -8,34 +8,72 @@ def get_create_sales_summary(
     df: pd.DataFrame,
     columns_dict: dict[str, dict[str, object]],
 ) -> dict[str, object]:
+    """
+    Cria um resumo analítico completo dos dados de vendas.
+
+    Calcula KPIs e análises por produto, categoria, cliente,
+    localização geográfica, período e forma de pagamento.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame de vendas já padronizado e limpo.
+
+    columns_dict : dict[str, dict[str, object]]
+        Configuração das colunas carregada do schema YAML.
+
+    Returns
+    -------
+    dict[str, object]
+        Dicionário contendo todas as métricas calculadas.
+
+    Raises
+    ------
+    TypeError
+        Caso os parâmetros informados possuam tipos inválidos.
+
+    ValueError
+        Caso o DataFrame esteja vazio.
+
+    KeyError
+        Caso alguma coluna do schema não exista no DataFrame.
+    """
+
     logger = logging.getLogger(__name__)
 
     logger.info("Iniciando criação de métricas e KPIs.")
 
     try:
+        # Verifica se df é um DataFrame.
         if not isinstance(df, pd.DataFrame):
             raise TypeError("df deve ser um pandas DataFrame.")
 
+        # Verifica se columns_dict é um dicionário.
         if not isinstance(columns_dict, dict):
             raise TypeError("columns_dict deve ser um dicionário.")
 
+        # Verifica se o DataFrame está vazio.
         if df.empty:
             raise ValueError("O DataFrame está vazio.")
 
+        # Obtém os nomes das colunas do schema YAML.
         required_columns = list(columns_dict.keys())
 
+        # Verifica se todas as colunas existem no DataFrame.
         missing = [column for column in required_columns if column not in df.columns]
 
         if missing:
             logger.warning("Colunas ausentes: %s", missing)
             raise KeyError(f"Colunas obrigatórias ausentes: {missing}")
 
+        # Colunas derivadas utilizadas nas análises.
         data = df.copy()
 
         data["year"] = data["order_date"].dt.year
         data["month"] = data["order_date"].dt.strftime("%Y-%m")
         data["weekday"] = data["order_date"].dt.day_name()
 
+        # Dicionário com as métricas e KPIs.
         summary: dict[str, object] = {
             "metadata": {
                 "rows": len(data),

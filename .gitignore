@@ -6,8 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
-# Graphics
-graphics
+# Gráficos e relatórios gerados automaticamente
+reports/charts/
+reports/*.pdf
 
 # Distribution / packaging
 .Python

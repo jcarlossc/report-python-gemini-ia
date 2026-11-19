@@ -11,7 +11,9 @@ dependencies = [
     "pyyaml (>=6.0.3,<7.0.0)",
     "types-pyyaml (>=6.0.12.20261103,<7.0.0.0)",
     "pandas (>=3.1.1,<4.0.0)",
-    "pandas-stubs (>=3.1.0.261029,<4.0.0.0)"
+    "pandas-stubs (>=3.1.0.261029,<4.0.0.0)",
+    "matplotlib (>=3.11.2,<4.0.0)",
+    "reportlab (>=5.1.0,<6.0.0)",
 ]
 
 [tool.poetry]

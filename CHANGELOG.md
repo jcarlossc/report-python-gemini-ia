@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 This project follows Semantic Versioning.
 
+## [0.10.0](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.9.1...v0.10.0) (2026-11-19)
+
+
+### Features
+
+* create_sales_charts function added ([9f5eb15](https://github.com/jcarlossc/report-python-gemini-ia/commit/9f5eb1560ba1e69195f69caeef0f0bd801c80d95))
+* create_sales_charts function added ([170b05e](https://github.com/jcarlossc/report-python-gemini-ia/commit/170b05e4fac91aa1e0cd01290ed09cf9dcaa9aea))
+
 ## [0.9.1](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.9.0...v0.9.1) (2026-11-18)
 
 

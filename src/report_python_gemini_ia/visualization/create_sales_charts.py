@@ -12,8 +12,40 @@ def get_create_sales_charts(
     summary: dict[str, object],
     output_dir: Path = Path("reports/charts"),
 ) -> dict[str, Path]:
+    """
+    Cria gráficos analíticos a partir do resumo de vendas.
+
+    Gera gráficos de KPIs, produtos, categorias, clientes,
+    geografia, período e formas de pagamento.
+
+    Parameters
+    ----------
+    summary : dict[str, object]
+        Dicionário retornado por get_create_sales_summary().
+
+    output_dir : Path
+        Diretório onde os gráficos PNG serão armazenados.
+
+    Returns
+    -------
+    dict[str, Path]
+        Dicionário com os nomes e caminhos dos gráficos gerados.
+
+    Raises
+    ------
+    TypeError
+        Caso os parâmetros possuam tipos inválidos.
+
+    ValueError
+        Caso o resumo esteja vazio ou contenha dados inválidos.
+
+    KeyError
+        Caso alguma seção ou métrica obrigatória esteja ausente.
+    """
+
     logger = logging.getLogger(__name__)
 
+    # Paleta visual DataQuantum.
     NAVY = "#022287"
     CYAN = "#3ADDF7"
     BLUE = "#0466C8"
@@ -22,12 +54,17 @@ def get_create_sales_charts(
 
     generated_charts: dict[str, Path] = {}
 
+    # Formatação monetária.
     currency_formatter = FuncFormatter(
         lambda value, _: f"R$ {value:,.0f}".replace(",", ".")
     )
 
     try:
         logger.info("Iniciando criação dos gráficos de vendas.")
+
+        # --------------------------------------------------
+        # 1. Validação dos parâmetros
+        # --------------------------------------------------
 
         if not isinstance(summary, dict):
             raise TypeError("summary deve ser um dicionário.")
@@ -38,11 +75,18 @@ def get_create_sales_charts(
         if not isinstance(output_dir, Path):
             raise TypeError("output_dir deve ser um pathlib Path.")
 
+        # Cria o diretório automaticamente.
         output_dir.mkdir(parents=True, exist_ok=True)
+
+        # --------------------------------------------------
+        # 2. Funções auxiliares
+        # --------------------------------------------------
 
         def get_section(
             section_name: str,
         ) -> Mapping[str, object]:
+            """Obtém e valida uma seção do resumo."""
+
             section = summary.get(section_name)
 
             if not isinstance(section, Mapping):
@@ -54,6 +98,8 @@ def get_create_sales_charts(
             section: Mapping[str, object],
             key: str,
         ) -> dict[str, float]:
+            """Obtém um dicionário de valores numéricos."""
+
             values = section.get(key)
 
             if not isinstance(values, Mapping):
@@ -76,6 +122,8 @@ def get_create_sales_charts(
             color: str = NAVY,
             currency: bool = False,
         ) -> None:
+            """Cria e salva um gráfico de barras horizontal."""
+
             if not values:
                 return
 
@@ -157,6 +205,8 @@ def get_create_sales_charts(
             filename: str,
             color: str = BLUE,
         ) -> None:
+            """Cria e salva um gráfico de linhas."""
+
             if not values:
                 return
 
@@ -216,6 +266,10 @@ def get_create_sales_charts(
             finally:
                 plt.close(fig)
 
+        # --------------------------------------------------
+        # 3. KPIs
+        # --------------------------------------------------
+
         kpis = get_section("kpis")
 
         required_kpis = {
@@ -256,8 +310,8 @@ def get_create_sales_charts(
                     0.65,
                     label,
                     ha="center",
-                    fontsize=11,
-                    color=GRAY,
+                    fontsize=15,
+                    color=DARK,
                     transform=ax.transAxes,
                 )
 
@@ -280,7 +334,7 @@ def get_create_sales_charts(
 
             fig.suptitle(
                 "Indicadores de desempenho de vendas",
-                fontsize=17,
+                fontsize=20,
                 fontweight="bold",
                 color=DARK,
             )
@@ -301,6 +355,10 @@ def get_create_sales_charts(
 
         finally:
             plt.close(fig)
+
+        # --------------------------------------------------
+        # 4. Produtos
+        # --------------------------------------------------
 
         products = get_section("products")
 
@@ -327,6 +385,10 @@ def get_create_sales_charts(
             currency=True,
         )
 
+        # --------------------------------------------------
+        # 5. Categorias
+        # --------------------------------------------------
+
         categories = get_section("categories")
 
         save_bar_chart(
@@ -351,6 +413,10 @@ def get_create_sales_charts(
             BLUE,
             currency=True,
         )
+
+        # --------------------------------------------------
+        # 6. Clientes
+        # --------------------------------------------------
 
         customers = get_section("customers")
 
@@ -377,6 +443,10 @@ def get_create_sales_charts(
             currency=True,
         )
 
+        # --------------------------------------------------
+        # 7. Geografia
+        # --------------------------------------------------
+
         geography = get_section("geography")
 
         save_bar_chart(
@@ -395,12 +465,17 @@ def get_create_sales_charts(
             currency=True,
         )
 
+        # --------------------------------------------------
+        # 8. Análise temporal
+        # --------------------------------------------------
+
         time = get_section("time")
 
         year_values = get_numeric_mapping(time, "year")
         month_values = get_numeric_mapping(time, "month")
         weekday_values = get_numeric_mapping(time, "weekday")
 
+        # Ordena os períodos cronologicamente.
         year_values = dict(sorted(year_values.items()))
 
         month_values = dict(sorted(month_values.items()))
@@ -438,6 +513,10 @@ def get_create_sales_charts(
             CYAN,
             currency=True,
         )
+
+        # --------------------------------------------------
+        # 9. Formas de pagamento
+        # --------------------------------------------------
 
         payments = get_section("payments")
 

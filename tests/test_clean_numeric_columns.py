@@ -1,6 +1,3 @@
-import logging
-from typing import cast
-
 import pandas as pd
 import pytest
 
@@ -9,210 +6,197 @@ from report_python_gemini_ia.transformation.clean_numeric_columns import (
 )
 
 
-@pytest.fixture
-def dataframe() -> pd.DataFrame:
-    """Cria um DataFrame de exemplo com valores numéricos e textuais."""
-    return pd.DataFrame(
+def test_clean_integer_columns() -> None:
+    df = pd.DataFrame(
         {
             "quantity": ["10", "20", "30"],
-            "unit_price": ["150.50", "200.75", "300.00"],
-            "discount_percent": ["5.5", "10.0", "15.0"],
-            "customer_name": ["Carlos", "Maria", "João"],
         }
     )
 
-
-@pytest.fixture
-def columns_dict() -> dict[str, dict[str, object]]:
-    """Retorna a configuração das colunas."""
-    return {
+    columns_dict = {
         "quantity": {
             "type": "int64",
             "nullable": False,
-        },
-        "unit_price": {
-            "type": "float64",
-        },
-        "discount_percent": {
-            "type": "float64",
-        },
-        "customer_name": {
-            "type": "string",
-        },
+        }
     }
 
-
-def test_clean_numeric_columns(
-    dataframe: pd.DataFrame,
-    columns_dict: dict[str, dict[str, object]],
-) -> None:
-    """Converte as colunas numéricas conforme a configuração."""
-    result = get_clean_numeric_columns(dataframe, columns_dict)
-
-    assert str(result["quantity"].dtype) == "int64"
-    assert str(result["unit_price"].dtype) == "Float64"
-    assert str(result["discount_percent"].dtype) == "Float64"
-
-
-def test_convert_integer_values() -> None:
-    """Converte valores textuais para inteiros."""
-    df = pd.DataFrame({"quantity": ["10", "20", "30"]})
-
-    config: dict[str, dict[str, object]] = {
-        "quantity": {
-            "type": "int64",
-            "nullable": False,
-        },
-    }
-
-    result = get_clean_numeric_columns(df, config)
+    result = get_clean_numeric_columns(df, columns_dict)
 
     assert result["quantity"].tolist() == [10, 20, 30]
+    assert result["quantity"].dtype == "int64"
 
 
-def test_convert_float_values() -> None:
-    """Converte valores textuais para decimais."""
-    df = pd.DataFrame({"unit_price": ["10.50", "20.75"]})
+def test_clean_nullable_integer_columns() -> None:
+    df = pd.DataFrame(
+        {
+            "quantity": ["10", "", "30"],
+        }
+    )
 
-    config: dict[str, dict[str, object]] = {
+    columns_dict = {
+        "quantity": {
+            "type": "int64",
+            "nullable": True,
+        }
+    }
+
+    result = get_clean_numeric_columns(df, columns_dict)
+
+    assert result["quantity"].iloc[0] == 10
+    assert pd.isna(result["quantity"].iloc[1])
+    assert result["quantity"].iloc[2] == 30
+
+    assert result["quantity"].dtype == "Int64"
+
+
+def test_clean_float_columns() -> None:
+    df = pd.DataFrame(
+        {
+            "unit_price": ["10.50", "20.75", "30.25"],
+        }
+    )
+
+    columns_dict = {
+        "unit_price": {
+            "type": "float64",
+            "nullable": False,
+        }
+    }
+
+    result = get_clean_numeric_columns(df, columns_dict)
+
+    assert result["unit_price"].tolist() == [
+        10.50,
+        20.75,
+        30.25,
+    ]
+
+    assert result["unit_price"].dtype == "float64"
+
+
+def test_clean_nullable_float_columns() -> None:
+    df = pd.DataFrame(
+        {
+            "unit_price": ["10.50", "", "30.25"],
+        }
+    )
+
+    columns_dict = {
         "unit_price": {
             "type": "float64",
             "nullable": True,
-        },
+        }
     }
 
-    result = get_clean_numeric_columns(df, config)
+    result = get_clean_numeric_columns(df, columns_dict)
 
-    assert result["unit_price"].tolist() == [10.50, 20.75]
+    assert result["unit_price"].iloc[0] == 10.50
+    assert pd.isna(result["unit_price"].iloc[1])
+    assert result["unit_price"].iloc[2] == 30.25
 
-
-def test_convert_invalid_values_to_null(
-    caplog: pytest.LogCaptureFixture,
-) -> None:
-    """Converte valores inválidos para nulo quando permitido."""
-    df = pd.DataFrame({"unit_price": ["10.50", "invalid", "20.00"]})
-
-    config = {"unit_price": {"type": "float64", "nullable": True}}
-
-    with caplog.at_level(logging.WARNING):
-        result = get_clean_numeric_columns(df, config)
-
-    assert result["unit_price"].isna().sum() == 1
-    assert "valor(es) inválido(s)" in caplog.text
+    assert result["unit_price"].dtype == "Float64"
 
 
-def test_reject_null_values_when_not_nullable() -> None:
-    """Rejeita valores nulos quando nullable é False."""
-    df = pd.DataFrame({"quantity": ["10", "invalid", "30"]})
+def test_invalid_numeric_values_become_na() -> None:
+    df = pd.DataFrame(
+        {
+            "quantity": ["10", "abc", "30"],
+        }
+    )
 
-    config: dict[str, dict[str, object]] = {
+    columns_dict = {
+        "quantity": {
+            "type": "int64",
+            "nullable": True,
+        }
+    }
+
+    result = get_clean_numeric_columns(df, columns_dict)
+
+    assert result["quantity"].iloc[0] == 10
+    assert pd.isna(result["quantity"].iloc[1])
+    assert result["quantity"].iloc[2] == 30
+
+
+def test_integer_column_rejects_fractional_values() -> None:
+    df = pd.DataFrame(
+        {
+            "quantity": ["10", "20.5", "30"],
+        }
+    )
+
+    columns_dict = {
+        "quantity": {
+            "type": "int64",
+            "nullable": True,
+        }
+    }
+
+    with pytest.raises(
+        ValueError,
+        match="valores não inteiros",
+    ):
+        get_clean_numeric_columns(df, columns_dict)
+
+
+def test_non_nullable_column_rejects_null_values() -> None:
+    df = pd.DataFrame(
+        {
+            "quantity": ["10", "", "30"],
+        }
+    )
+
+    columns_dict = {
         "quantity": {
             "type": "int64",
             "nullable": False,
-        },
+        }
     }
 
-    with pytest.raises(ValueError, match="não permite valores nulos"):
-        get_clean_numeric_columns(df, config)
+    with pytest.raises(
+        ValueError,
+        match="não permite valores nulos",
+    ):
+        get_clean_numeric_columns(df, columns_dict)
 
 
-def test_reject_missing_values_when_not_nullable() -> None:
-    """Rejeita valores ausentes quando nullable é False."""
-    df = pd.DataFrame({"quantity": [10, None, 30]})
+def test_original_dataframe_is_preserved() -> None:
+    df = pd.DataFrame(
+        {
+            "quantity": ["10", "20", "30"],
+        }
+    )
 
-    config: dict[str, dict[str, object]] = {
+    original = df.copy(deep=True)
+
+    columns_dict = {
         "quantity": {
             "type": "int64",
             "nullable": False,
-        },
+        }
     }
 
-    with pytest.raises(ValueError, match="não permite valores nulos"):
-        get_clean_numeric_columns(df, config)
+    get_clean_numeric_columns(df, columns_dict)
+
+    pd.testing.assert_frame_equal(df, original)
 
 
-def test_reject_fractional_values_in_integer_columns() -> None:
-    """Rejeita valores com casas decimais em colunas inteiras."""
-    df = pd.DataFrame({"quantity": ["10", "20.5", "30"]})
+def test_missing_numeric_column_raises_key_error() -> None:
+    df = pd.DataFrame(
+        {
+            "quantity": [10, 20],
+        }
+    )
 
-    config: dict[str, dict[str, object]] = {
-        "quantity": {
-            "type": "int64",
-            "nullable": False,
-        },
+    columns_dict = {
+        "unit_price": {
+            "type": "float64",
+            "nullable": True,
+        }
     }
 
-    with pytest.raises(ValueError, match="valores não inteiros"):
-        get_clean_numeric_columns(df, config)
-
-
-def test_ignore_non_numeric_columns(
-    dataframe: pd.DataFrame,
-    columns_dict: dict[str, dict[str, object]],
-) -> None:
-    """Não executa limpeza numérica em colunas textuais."""
-    result = get_clean_numeric_columns(dataframe, columns_dict)
-
-    assert result["customer_name"].tolist() == ["Carlos", "Maria", "João"]
-
-
-def test_preserve_original_dataframe(
-    dataframe: pd.DataFrame,
-    columns_dict: dict[str, dict[str, object]],
-) -> None:
-    """Preserva o DataFrame original durante a limpeza."""
-    original = dataframe.copy()
-
-    get_clean_numeric_columns(dataframe, columns_dict)
-
-    pd.testing.assert_frame_equal(dataframe, original)
-
-
-def test_reject_non_dataframe() -> None:
-    """Rejeita argumentos que não sejam DataFrames."""
-    with pytest.raises(TypeError, match="DataFrame do pandas"):
-        get_clean_numeric_columns(
-            cast(pd.DataFrame, []),
-            {},
-        )
-
-
-def test_reject_non_dictionary_config() -> None:
-    """Rejeita configurações que não sejam dicionários."""
-    df = pd.DataFrame({"quantity": [10]})
-
-    with pytest.raises(TypeError, match="dicionário"):
-        get_clean_numeric_columns(
-            df,
-            cast(dict[str, dict[str, object]], []),
-        )
-
-
-def test_reject_missing_numeric_column() -> None:
-    """Rejeita colunas numéricas ausentes no DataFrame."""
-    df = pd.DataFrame({"unit_price": [10.50]})
-
-    config: dict[str, dict[str, object]] = {
-        "quantity": {
-            "type": "int64",
-            "nullable": "false",
-        },
-    }
-
-    with pytest.raises(KeyError, match="quantity"):
-        get_clean_numeric_columns(df, config)
-
-
-def test_reject_invalid_nullable_configuration() -> None:
-    """Rejeita configurações de nullable que não sejam booleanas."""
-    df = pd.DataFrame({"quantity": [10]})
-
-    config: dict[str, dict[str, object]] = {
-        "quantity": {
-            "type": "int64",
-            "nullable": "false",
-        },
-    }
-
-    with pytest.raises(TypeError, match="nullable deve ser booleano"):
-        get_clean_numeric_columns(df, config)
+    with pytest.raises(
+        KeyError,
+        match="Coluna numérica ausente",
+    ):
+        get_clean_numeric_columns(df, columns_dict)

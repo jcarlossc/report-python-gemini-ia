@@ -9,6 +9,7 @@ __pycache__/
 # Gráficos e relatórios gerados automaticamente
 reports/charts/
 reports/*.pdf
+data/data_processed/*.csv
 
 # Distribution / packaging
 .Python

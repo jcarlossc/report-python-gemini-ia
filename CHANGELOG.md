@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 This project follows Semantic Versioning.
 
+## [0.11.0](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.10.1...v0.11.0) (2026-11-23)
+
+
+### Features
+
+* The `create_sales_report` file has been added, and the `clean n… ([fac1397](https://github.com/jcarlossc/report-python-gemini-ia/commit/fac139786a6d9d8fac1fedd2ad4bc067e4a06e19))
+* The `create_sales_report` file has been added, and the `clean numeric columns`, `clean category columns`, and `tests` functions have been refactored. ([5648a66](https://github.com/jcarlossc/report-python-gemini-ia/commit/5648a662544b6856de3ae0e6c4138bd1f6ea52ae))
+
 ## [0.10.1](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.10.0...v0.10.1) (2026-11-19)
 
 

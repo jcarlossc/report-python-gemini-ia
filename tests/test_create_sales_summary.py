@@ -1,6 +1,8 @@
 import pandas as pd
 import pytest
 
+from typing import Any
+
 from report_python_gemini_ia.analytics.create_sales_summary import (
     get_create_sales_summary,
 )
@@ -102,7 +104,7 @@ def test_create_sales_summary(
 ) -> None:
     """Verifica a estrutura do resumo analítico."""
 
-    result = get_create_sales_summary(
+    result: dict[str, Any] = get_create_sales_summary(
         sales_dataframe,
         columns_dict,
     )
@@ -125,7 +127,7 @@ def test_summary_metadata(
 ) -> None:
     """Verifica os metadados do resumo."""
 
-    result = get_create_sales_summary(
+    result: dict[str, Any] = get_create_sales_summary(
         sales_dataframe,
         columns_dict,
     )
@@ -146,7 +148,7 @@ def test_summary_period(
 ) -> None:
     """Verifica o período das vendas."""
 
-    result = get_create_sales_summary(
+    result: dict[str, Any] = get_create_sales_summary(
         sales_dataframe,
         columns_dict,
     )
@@ -163,7 +165,7 @@ def test_summary_kpis(
 ) -> None:
     """Verifica os indicadores principais de vendas."""
 
-    result = get_create_sales_summary(
+    result: dict[str, Any] = get_create_sales_summary(
         sales_dataframe,
         columns_dict,
     )
@@ -186,7 +188,7 @@ def test_summary_products(
 ) -> None:
     """Verifica as métricas de produtos."""
 
-    result = get_create_sales_summary(
+    result: dict[str, Any] = get_create_sales_summary(
         sales_dataframe,
         columns_dict,
     )
@@ -205,7 +207,7 @@ def test_summary_categories(
 ) -> None:
     """Verifica as métricas de categorias."""
 
-    result = get_create_sales_summary(
+    result: dict[str, Any] = get_create_sales_summary(
         sales_dataframe,
         columns_dict,
     )
@@ -224,7 +226,7 @@ def test_summary_customers(
 ) -> None:
     """Verifica as métricas de clientes."""
 
-    result = get_create_sales_summary(
+    result: dict[str, Any] = get_create_sales_summary(
         sales_dataframe,
         columns_dict,
     )
@@ -243,7 +245,7 @@ def test_summary_geography(
 ) -> None:
     """Verifica as métricas geográficas."""
 
-    result = get_create_sales_summary(
+    result: dict[str, Any] = get_create_sales_summary(
         sales_dataframe,
         columns_dict,
     )
@@ -261,7 +263,7 @@ def test_summary_time(
 ) -> None:
     """Verifica as métricas temporais."""
 
-    result = get_create_sales_summary(
+    result: dict[str, Any] = get_create_sales_summary(
         sales_dataframe,
         columns_dict,
     )
@@ -280,7 +282,7 @@ def test_summary_payments(
 ) -> None:
     """Verifica as métricas de pagamento."""
 
-    result = get_create_sales_summary(
+    result: dict[str, Any] = get_create_sales_summary(
         sales_dataframe,
         columns_dict,
     )

@@ -1,5 +1,5 @@
 import logging
-from typing import cast
+from typing import cast, Any
 
 import pandas as pd
 import pytest
@@ -127,21 +127,27 @@ def test_preserve_original_dataframe(
     pd.testing.assert_frame_equal(dataframe, original)
 
 
-def test_reject_non_dataframe() -> None:
-    """Lança um TypeError quando df não é um DataFrame do pandas."""
-    with pytest.raises(TypeError, match="pandas DataFrame"):
-        get_standardize_columns([], {})
+def test_invalid_dataframe() -> None:
+    invalid_df = cast(pd.DataFrame, [])
+
+    with pytest.raises(
+        TypeError,
+        match="DataFrame",
+    ):
+        get_standardize_columns(invalid_df, {})
 
 
 def test_reject_invalid_remove_accents() -> None:
     """Lança TypeError quando remove_accents não é um booleano."""
     df = pd.DataFrame({"order_id": [1]})
 
+    invalid_value: Any = "True"
+
     with pytest.raises(TypeError, match="boolean"):
         get_standardize_columns(
             df,
             {},
-            remove_accents=cast(bool, "True"),
+            remove_accents=invalid_value,
         )
 
 

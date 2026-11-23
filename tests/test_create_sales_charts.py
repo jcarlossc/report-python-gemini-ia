@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 
+
 from report_python_gemini_ia.visualization.create_sales_charts import (
     get_create_sales_charts,
 )

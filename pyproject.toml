@@ -6,7 +6,7 @@ authors = [
     {name = "jcarlossc",email = "jcarlossc1977@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.11,<4.0"
+requires-python = ">=3.11,<3.16"
 dependencies = [
     "pyyaml (>=6.0.3,<7.0.0)",
     "types-pyyaml (>=6.0.12.20261103,<7.0.0.0)",
@@ -17,6 +17,7 @@ dependencies = [
     "google-genai (>=3.6.1,<4.0.0)",
     "pydantic (>=2.14.4,<3.0.0)",
     "python-dotenv (>=1.2.4,<2.0.0)",
+    "prefect (>=3.9.4,<4.0.0)",
 ]
 
 [tool.poetry]

@@ -4,6 +4,14 @@ All notable changes to this project are documented in this file.
 
 This project follows Semantic Versioning.
 
+## [0.12.0](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.11.0...v0.12.0) (2026-11-24)
+
+
+### Features
+
+* pipeline_report function added ([fa462cb](https://github.com/jcarlossc/report-python-gemini-ia/commit/fa462cba8655bcc9a9bb5aa07cc21f97eedc5a13))
+* pipeline_report function added ([d8f5b14](https://github.com/jcarlossc/report-python-gemini-ia/commit/d8f5b1491c9d86f85b8183ee808bb76d7f94daaa))
+
 ## [0.11.0](https://github.com/jcarlossc/report-python-gemini-ia/compare/v0.10.1...v0.11.0) (2026-11-23)
 
 

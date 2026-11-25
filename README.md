@@ -385,7 +385,7 @@ A interface permite acompanhar:
 * Duração das execuções.
 * Logs de processamento.
 
-## Tecnologias utilizadas
+## 💻 Tecnologias utilizadas
 
 ### Linguagem e gerenciamento
 
@@ -420,7 +420,7 @@ A interface permite acompanhar:
 | Mypy | Verificação estática de tipos | poetry run task mypy |
 | Pre-commit | Execução automática de verificações antes dos commits | poetry run task precommit |
 
-## Requisitos
+## 🛠️ Requisitos
 
 * Python 3.11 ou superior, respeitando a faixa de compatibilidade configurada no projeto.
 * Poetry.
@@ -429,17 +429,17 @@ A interface permite acompanhar:
 
 ### Instalação
 
-1. Clonar o repositório:
+#### 1. Clonar o repositório:
 ```
 git clone https://github.com/jcarlossc/report-python-gemini-ia.git
 
 cd report-python-gemini-ia
 ```
-### 2. Instalar as dependências
+#### 2. Instalar as dependências
 ```
 poetry install
 ```
-3. Configurar as variáveis de ambiente
+#### 3. Configurar as variáveis de ambiente
 
 Crie um arquivo .env na raiz do projeto.
 
@@ -449,7 +449,7 @@ GEMINI_API_KEY=sua_chave_de_api
 ```
 O arquivo .env não deve ser versionado
 
-4. Verificar a instalação
+#### 4. Verificar a instalação
 ```
 poetry run python --version
 
@@ -457,18 +457,16 @@ poetry run prefect version
 
 poetry show
 ```
-
-## Execução
-
-### Executar a aplicação
+#### 5. Executar a aplicação
 ```
 poetry run task app
 ```
 
-## Boas práticas adotadas
+## 📌 Boas práticas adotadas
 
 * Organização modular por responsabilidade.
 * Separação entre extração, transformação e análise.
+* Versionamento semântico: release-please
 * Configurações externas em YAML.
 * Tipagem estática com Mypy.
 * Padronização com Ruff.
@@ -487,15 +485,21 @@ poetry run task app
 
 O projeto utiliza Pytest para verificar o comportamento das funções e dos módulos.
 
+✔️ Pytest
+
 Executar todos os testes:
 ```
 poetry run task pytest
 ```
+✔️ Pytest-cov
+
 Executar testes com cobertura:
 ```
 poetry run task covreport
 ```
 O relatório poderá ser consultado em: ```htmlcov/index.html````
+
+✔️ Pytest-cov-console
 
 Executar testes com cobertura e mostra no console:
 ```
@@ -505,7 +509,7 @@ poetry run task covconsole
 
 O projeto utiliza ferramentas de análise estática e padronização para manter a consistência e a confiabilidade do código.
 
-Ruff
+✔️ Ruff
 
 Verificar problemas de lint:
 ```
@@ -515,41 +519,85 @@ Corrigir automaticamente os problemas compatíveis:
 ```
 poetry run task fix
 ```
-Mypy
+✔️ Mypy
 
 Verificar tipagem estática:
 ```
 poetry run task mypy
 ```
-Pre-commit
+✔️ Pre-commit
 
 Executar os hooks configurados:
 ```
 poetry run task precommit
 ```
 
+## 📝 Logging
 
-## Resultados esperados
+O projeto possui uma camada dedicada de logging:
+```
+utils/
+└── loggers/
+    └── logger.py
+```
+Os eventos da aplicação são registrados em:
+```
+logs/
+└── app.log
+```
+O logging permite acompanhar:
 
-Ao concluir o processamento, a aplicação disponibiliza:
+* início do pipeline;
+* execução das etapas;
+* erros;
+* exceções;
+* processamento dos arquivos;
+* operações no banco;
+* conclusão do pipeline.
 
-1. Base de dados original preservada.
-2. Base de dados processada e padronizada.
-3. Indicadores comerciais e financeiros.
-4. Gráficos analíticos.
-5. Interpretações complementares com Google Gemini.
-6. Relatório gerencial em PDF.
-7. Histórico e monitoramento das execuções pelo Prefect.Boas práticas adotadas
-* Organização modular por responsabilidade.
-* Separação entre extração, transformação e análise.
-* Configurações externas em YAML.
-* Tipagem estática com Mypy.
-* Padronização com Ruff.
-* Testes automatizados com Pytest.
-* Controle de cobertura com pytest-cov.
-* Validação de dados e configurações.
-* Gerenciamento de dependências com Poetry.
-* Orquestração com Prefect.
-* Recuperação de falhas transitórias com Retry e backoff exponencial.
-* Separação de credenciais por variáveis de ambiente.
-* Versionamento com Git.
+Exemplo do projeto:
+```
+2026-11-24 16:45:48,522 - INFO - report_python_gemini_ia.utils.loggers.logger - Logger configurado com sucesso.
+2026-11-24 16:45:48,523 - INFO - report_python_gemini_ia.pipeline_report - INÍCIO DO PIPELINE REPORT PYTHON GEMINI IA
+2026-11-24 16:45:48,538 - INFO - report_python_gemini_ia.ingestion.load_csv - Iniciando o carregamento do arquivo CSV: C:\workspace2\python\report-python-gemini-ia\data\data_raw\global_sales.csv
+2026-11-24 16:45:49,038 - INFO - report_python_gemini_ia.ingestion.load_csv - CSV carregado com sucesso. Linhas: 2000 | Colunas: 15
+2026-11-24 16:45:49,055 - INFO - prefect.task_runs - Finished in state Completed()
+2026-11-24 16:45:49,224 - INFO - report_python_gemini_ia.transformation.standardize_columns - Colunas padronizadas com sucesso.
+2026-11-24 16:45:49,238 - INFO - prefect.task_runs - Finished in state Completed()
+2026-11-24 16:45:49,277 - INFO - report_python_gemini_ia.transformation.clean_numeric_columns - Iniciando limpeza numérica da coluna: quantity
+2026-11-24 16:45:49,514 - INFO - report_python_gemini_ia.transformation.clean_numeric_columns - Limpeza numérica executada: coluna=quantity, tipo=int64, valores inválidos=0, valores nulos=0.
+2026-11-24 16:45:49,515 - INFO - report_python_gemini_ia.transformation.clean_numeric_columns - Iniciando limpeza numérica da coluna: unit_price
+2026-11-24 16:45:49,538 - INFO - report_python_gemini_ia.transformation.clean_numeric_columns - Limpeza numérica executada: coluna=unit_price, tipo=float64, valores inválidos=0, valores nulos=0.
+```
+
+## 🎯 Resultados esperados
+
+#### Ao concluir o processamento, a aplicação disponibiliza:
+
+* Base de dados original preservada.
+* Base de dados processada e padronizada.
+* Indicadores comerciais e financeiros.
+* Gráficos analíticos.
+* Interpretações complementares com Google Gemini.
+* Relatório gerencial em PDF.
+* Histórico e monitoramento das execuções pelo Prefect.
+
+## 📚 Licença
+Este projeto está licenciado sob MIT License.
+
+## 📬 Contatos
+
+* Recife, PE - Brasil<br>
+* Telefone: +55 81 99712 9140<br>
+* Telegram: @jcarlossc<br>
+* Blogger linguagem R: [https://informaticus77-r.blogspot.com/](https://informaticus77-r.blogspot.com/)<br>
+* Blogger linguagem Python: [https://informaticus77-python.blogspot.com/](https://informaticus77-python.blogspot.com/)<br>
+* Email: jcarlossc1977@gmail.com<br>
+* Pypi: [https://pypi.org/user/jcarlossc.dev/](https://pypi.org/user/jcarlossc.dev/)
+* Tableau: [https://public.tableau.com/app/profile/carlos.da.costa7416/vizzes](https://public.tableau.com/app/profile/carlos.da.costa7416/vizzes)
+* LinkedIn: https://www.linkedin.com/in/carlos-da-costa-669252149/<br>
+* GitHub: https://github.com/jcarlossc<br>
+* Kaggle: https://www.kaggle.com/jcarlossc/  
+* Twitter/X: https://x.com/jcarlossc1977
+
+  

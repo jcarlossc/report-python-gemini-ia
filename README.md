@@ -1,3 +1,20 @@
+<img src="https://github.com/jcarlossc/report-python-gemini-ia/blob/main/images/pipeline.jpg">
+
+<table>
+  <tr>
+    <td><img src="https://github.com/jcarlossc/report-python-gemini-ia/blob/main/images/diagrama.jpg" width="200"/> </td>
+    <td><img src="https://github.com/jcarlossc/report-python-gemini-ia/blob/main/images/prefect_01.jpg" width="200"/> </td>
+    <td><img src="https://github.com/jcarlossc/report-python-gemini-ia/blob/main/images/prefect_02.jpg" width="200"/> </td>
+    <td><img src="https://github.com/jcarlossc/report-python-gemini-ia/blob/main/images/prefect_03.jpg" width="200"/> </td>
+    <td><img src="https://github.com/jcarlossc/report-python-gemini-ia/blob/main/images/cobertura.jpg" width="200"/> </td>
+    <td><img src="https://github.com/jcarlossc/report-python-gemini-ia/blob/main/images/precommit.jpg" width="200"/> </td>
+    <td><img src="https://github.com/jcarlossc/report-python-gemini-ia/blob/main/images/pytest.jpg" width="200"/> </td>
+  </tr>
+</table>
+
+<a href="https://github.com/jcarlossc/report-python-gemini-ia/blob/main/images/DataQuantum_Relatorio_Vendas-compactado.pdf" download>Baixar RELATÓRIO DE VENDAS</a>
+<p>Observação: o relatório acima está comprimido devidos as diretrizes de tamanho de arquivos do Github. O relatório gerado pelo sistema é muito superior em qualidade.</p>
+
 ### Automação de processamento, análise e geração de relatórios de vendas com Python, Pandas, Prefect e Google Gemini AI.
 
 ## Sobre o projeto

@@ -12,12 +12,15 @@
   </tr>
 </table>
 
-<a href="https://github.com/jcarlossc/report-python-gemini-ia/blob/main/images/DataQuantum_Relatorio_Vendas-compactado.pdf" download>Baixar RELATÓRIO DE VENDAS</a>
+## 📋 Relatório
+<a href="https://github.com/jcarlossc/report-python-gemini-ia/blob/main/images/DataQuantum_Relatorio_Vendas-compactado.pdf" download><b>RELATÓRIO DE VENDAS</b></a>
 <p>Observação: o relatório acima está comprimido devidos as diretrizes de tamanho de arquivos do Github. O relatório gerado pelo sistema é muito superior em qualidade.</p>
 
+---
+ 
 ### Automação de processamento, análise e geração de relatórios de vendas com Python, Pandas, Prefect e Google Gemini AI.
 
-## Sobre o projeto
+## 📁 Sobre o projeto
 
 O Report Python Gemini IA é um projeto de engenharia e análise de dados desenvolvido para automatizar um fluxo completo de processamento de dados comerciais, desde a leitura de arquivos CSV até a geração de relatórios analíticos em PDF.
 
@@ -27,7 +30,7 @@ O projeto utiliza o Prefect para orquestrar o pipeline, acompanhar sua execuçã
 
 O Google Gemini é integrado para ampliar a capacidade de interpretação dos resultados analíticos.
 
-## Objetivos
+## 🎯 Objetivos
 
 * Automatizar o processamento de dados comerciais.
 * Padronizar e higienizar bases de dados.
@@ -39,7 +42,7 @@ O Google Gemini é integrado para ampliar a capacidade de interpretação dos re
 * Orquestrar e monitorar a execução com Prefect.
 * Implementar testes automatizados e validação estática de código.
 
-## Arquitetura do projeto
+## 🏗️ Arquitetura do projeto
 
 A aplicação segue uma arquitetura modular, organizada por responsabilidades, utilizando o padrão src layout.
 
@@ -118,7 +121,7 @@ report-python-gemini-ia/
 
 ```
 
-## Fluxo de processamento de dados
+## 🚰 Fluxo de processamento de dados
 
 O processamento é organizado em etapas independentes, coordenadas pelo pipeline principal.
 
@@ -296,13 +299,13 @@ A composição contempla:
 
 O resultado é um documento estruturado para apresentação e acompanhamento dos resultados de vendas.
 
-## Orquestração com Prefect
+## ⚙️ Orquestração com Prefect
 
 O Prefect é responsável pela orquestração e pelo gerenciamento da execução do pipeline.
 
 Sua utilização permite acompanhar o processamento, identificar falhas, registrar estados e configurar políticas de repetição automática.
 
-## Arquitetura de execução
+### Arquitetura de execução
 ```
 flowchart TD
     A["main.py"] --> B["Prefect Flow"]
@@ -316,7 +319,7 @@ flowchart TD
     G -->|Não| I["Registrar falha"]
 ```
 
-## Retry com backoff exponencial
+### Retry com backoff exponencial
 
 Uma das funcionalidades importantes do Prefect é permitir novas tentativas de execução quando uma tarefa apresenta falha.
 
@@ -340,8 +343,8 @@ Exemplo ilustrativo dos intervalos:
 | Primeira repetição | 5 segundos |
 | Segunda repetição | 10 segundos |
 | Terceira repetição | 20 segundos |
-| Terceira repetição | 40 segundos |
-| Terceira repetição | 60 segundos |
+| Quarta repetição | 40 segundos |
+| Quinta repetição | 60 segundos |
 
 O jitter adiciona uma variação aos intervalos para evitar que múltiplas execuções tentem acessar um serviço simultaneamente.
 
@@ -349,7 +352,7 @@ A configuração deve ser aplicada às tarefas que realmente precisam de recuper
 
 Importante: o retry não corrige erros permanentes, como configurações inválidas, arquivos inexistentes ou dados inconsistentes. Essas situações devem ser tratadas por validações específicas.
 
-## Monitoramento visual
+## 🔎 Monitoramento visual
 
 O Prefect disponibiliza uma interface gráfica para acompanhar as execuções.
 
@@ -359,7 +362,13 @@ poetry run prefect server start
 ```
 Inicialização do servidor local com logs:
 ```
+poetry run prefect server start --log-level DEBUG
+```
+Em outro terminal:
 
+Isso configura seu projeto para se comunicar com o servidor local.
+```
+poetry run prefect config set PREFECT_API_URL=http://127.0.0.1:4200/api
 ```
 
 Interface:
@@ -472,7 +481,7 @@ poetry run task app
 * Separação de credenciais por variáveis de ambiente.
 * Versionamento com Git.
 
-## Testes
+## 🧪 Testes
 
 ### Testes automatizados
 

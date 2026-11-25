@@ -120,7 +120,7 @@ def create_sales_summary_task(
     return get_create_sales_summary(df, columns_dict)
 
 
-@task(name="gerar-graficos", retries=3, retry_delay_seconds=[5, 10, 20, 40, 60])
+@task(name="gerar-graficos", retries=3, retry_delay_seconds=10)
 def create_sales_charts_task(
     analytics: Any,
     output_dir: Path,
@@ -132,7 +132,7 @@ def create_sales_charts_task(
 @task(
     name="gerar-relatorio-pdf",
     retries=5,
-    retry_delay_seconds=10,
+    retry_delay_seconds=[5, 10, 20, 40, 60],
 )
 def create_sales_report_task(
     analytics: Any,
